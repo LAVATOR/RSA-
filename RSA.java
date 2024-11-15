@@ -35,7 +35,7 @@ public class RSA {
 
         // Controllo e primo con φ(n)
         while (e.gcd(φn).compareTo(BigInteger.ONE) != 0) {
-            e = e.add(BigInteger.TWO);  // Increment to try the next odd number
+            e = e.add(BigInteger.TWO);  
         }
 
         //  d = (d * e) % φ(n) = 1 
@@ -61,8 +61,8 @@ public class RSA {
 
         // Cripta ogni carattere di data
         for (char character : data.toCharArray()) {
-            BigInteger m = BigInteger.valueOf((int) character);  // Convert char to BigInteger
-            BigInteger c = m.modPow(e, n);  // Encrypt using the formula c = m^e mod n
+            BigInteger m = BigInteger.valueOf((int) character);  // Converte i caratteri in BigInteger
+            BigInteger c = m.modPow(e, n);  // Cripta usando la formula c = m^e mod n
             encrypted.append(c).append(token);
         }
 
@@ -77,7 +77,7 @@ public class RSA {
         while (tokenizer.hasMoreTokens()) {
             BigInteger encryptedValue = new BigInteger(tokenizer.nextToken());
             BigInteger decryptedValue = encryptedValue.modPow(d, n);  // m = c^d mod n
-            decrypted.append((char) decryptedValue.intValue());  // Convert decrypted value to char
+            decrypted.append((char) decryptedValue.intValue());  // Converte i valori criptati in caratteri
         }
 
         System.out.println("Decrypted Data: " + decrypted.toString());
