@@ -15,11 +15,11 @@ public class RSA {
     private static void rsaEncrypt() {
         Random rng = new Random();
 
-        // Generate two distinct large primes
+        // Genera 2 numeri primi
         BigInteger firstPrime = BigInteger.probablePrime(128, rng);
         BigInteger secondPrime = BigInteger.probablePrime(128, rng);
 
-        // Ensure the primes are different
+        // Controllo 2 numeri primi
         while (firstPrime.equals(secondPrime)) {
             secondPrime = BigInteger.probablePrime(128, rng);
         }
@@ -30,7 +30,7 @@ public class RSA {
         //  φ(n) = (p - 1) * (q - 1)
         BigInteger φn = firstPrime.subtract(BigInteger.ONE).multiply(secondPrime.subtract(BigInteger.ONE));
 
-        //  gcd(e, φ(n)) = 1. Typically, e is chosen as 65537.
+        //  gcd(e, φ(n)) = 1
         BigInteger e = new BigInteger("65537");
 
         // Controllo e primo con φ(n)
