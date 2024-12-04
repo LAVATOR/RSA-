@@ -2,14 +2,19 @@ import java.math.BigInteger;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RSA {
-    
+
+    // Configura il logger
+    private static final Logger logger = Logger.getLogger(RSA.class.getName());
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         
         // legge da tastiera il messaggio da criptare
-        System.out.print("Inserire un messaggio da criptare");
+        System.out.print("Inserire un messaggio da criptare:");
         String data = in.nextLine();
         
         if (data.isEmpty()) {
@@ -23,7 +28,7 @@ public class RSA {
     private static void rsaEncrypt(String data) {
         Random rng = new Random();
         
-          // Genera 2 numeri primi
+        // Genera 2 numeri primi
         BigInteger firstPrime = BigInteger.probablePrime(128, rng);
         BigInteger secondPrime = BigInteger.probablePrime(128, rng);
         
@@ -38,7 +43,7 @@ public class RSA {
         // φ(n) = (p - 1) * (q - 1)
         BigInteger φn = firstPrime.subtract(BigInteger.ONE).multiply(secondPrime.subtract(BigInteger.ONE));
         
-        // Choose e such that gcd(e, φ(n)) = 1
+        // Scegli e tale che mcd(e, φ(n)) = 1
         BigInteger e = new BigInteger("65537");
         
         // Controllo e primo con φ(n)
@@ -50,16 +55,16 @@ public class RSA {
         BigInteger d = e.modInverse(φn);
         
         
-        System.out.println("firstPrime: " + firstPrime);
-        System.out.println("secondPrime: " + secondPrime);
-        System.out.println("n: " + n);
-        System.out.println("φ(n): " + φn);
-        System.out.println("e: " + e);
-        System.out.println("d: " + d);
+        logger.log(Level.INFO, "firstPrime: " + firstPrime);
+        logger.log(Level.INFO, "secondPrime: " + secondPrime);
+        logger.log(Level.INFO, "n: " + n);
+        logger.log(Level.INFO, "φ(n): " + φn);
+        logger.log(Level.INFO, "e: " + e);
+        logger.log(Level.INFO, "d: " + d);
         
         // Cripta data
         String encryptedData = encrypt(data, e, n);
-        System.out.println("Encrypted Data: " + encryptedData);
+        logger.log(Level.INFO, "Encrypted Data: " + encryptedData);
         
         // Decripta data
         decrypt(encryptedData, d, n);
@@ -80,18 +85,18 @@ public class RSA {
         return encrypted.toString();
     }
     
-    // Method to decrypt the data
+    // Metodo per decriptare data
     private static void decrypt(String encryptedData, BigInteger d, BigInteger n) {
-        StringTokenizer tokenizer = new StringTokenizer(encryptedData, ";");  
+        StringTokenizer tokenizer = new StringTokenizer(encryptedData, ";");  // Use token to split encrypted values
         StringBuilder decrypted = new StringBuilder();
         
-        // Decrypt each token
+        // decripta ogni token
         while (tokenizer.hasMoreTokens()) {
             BigInteger encryptedValue = new BigInteger(tokenizer.nextToken());
             BigInteger decryptedValue = encryptedValue.modPow(d, n);  // m = c^d mod n
-            decrypted.append((char) decryptedValue.intValue()); // Converte i valori criptati in caratteric
+            decrypted.append((char) decryptedValue.intValue());  // // Converte i valori criptati in caratteri
         }
         
-        System.out.println("Decrypted Data: " + decrypted.toString());
+        logger.log(Level.INFO, "Decrypted Data: " + decrypted.toString());
     }
 }
