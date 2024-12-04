@@ -17,10 +17,11 @@ public class RSA {
         System.out.print("Inserire un messaggio da criptare:");
         String data = in.nextLine();
         
-        if (data.isEmpty()) {
+        while (data.isEmpty()) {
             System.out.println("Inserire posibilmente almeno un carattere");
-            return;
+            data = in.nextLine();
         }
+        
         
         rsaEncrypt(data);
     }
