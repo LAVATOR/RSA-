@@ -88,7 +88,7 @@ public class RSA {
     
     // Metodo per decriptare data
     private static void decrypt(String encryptedData, BigInteger d, BigInteger n) {
-        StringTokenizer tokenizer = new StringTokenizer(encryptedData, ";");  // Use token to split encrypted values
+        StringTokenizer tokenizer = new StringTokenizer(encryptedData, ";");  // Utilizza il token per dividere i valori criptati
         StringBuilder decrypted = new StringBuilder();
         
         // decripta ogni token
